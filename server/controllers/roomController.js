@@ -62,10 +62,24 @@ export const getOwnerRooms = async (req,res)=>{
 
 
 //API to toggle availability of a room
+// export const toggleRoomAvailability = async (req,res)=>{
+//     try {
+//         const {roomId}=req.body;
+//         const roomData= await Room.findById(roomId);
+//         roomData.isAvailable= !roomData.isAvailable;
+//         await roomData.save();
+//         res.json({success: true, message: "Room availability updated"})
+//     } catch (error) {
+//         res.json({success: false, message: error.message})
+//     }
+// }
 export const toggleRoomAvailability = async (req,res)=>{
     try {
-        const [roomId]=req.body;
+        const {roomId} = req.body;
         const roomData= await Room.findById(roomId);
+        if (!roomData) {
+            return res.json({success: false, message: "Room not found"});
+        }
         roomData.isAvailable= !roomData.isAvailable;
         await roomData.save();
         res.json({success: true, message: "Room availability updated"})
