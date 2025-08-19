@@ -6,7 +6,7 @@ import { MessageStatus } from "svix";
 //API to create a new room for a hotel
 export const createRoom = async (req,res)=>{
     try {
-        const{roomType, priceperNight, amenities} = req.body;
+        const{roomType, pricePerNight, amenities} = req.body;
         const hotel = await Hotel.findOne({owner:req.auth.userId})
 
         if(!hotel) return res.json({success:false, message: "no Hotel found"});
@@ -18,10 +18,10 @@ export const createRoom = async (req,res)=>{
         })
         //wait for all uploads to complete
         const images= await Promise.all(uploadImages)
-        await Room({
+        await Room.create({
             hotel: hotel._id,
             roomType,
-            priceperNight: +priceperNight,
+            priceperNight: +pricePerNight,
             amenities: JSON.parse(amenities),
             images,
         })

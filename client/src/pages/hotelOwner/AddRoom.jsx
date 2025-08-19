@@ -30,7 +30,8 @@ const AddRoom = () => {
 const onSubmitHandler = async(e)=>{
     e.preventDefault()
     // check if all inputs are filled
-    if(!inputs.roomType || !inputs.pricePerNight || !inputs.amenities || !Object.values(images).some(images).some(Image => image) ){
+    // if(!inputs.roomType || !inputs.pricePerNight || !inputs.amenities || !Object.values(images).some(images).some(Image => image) ){
+    if(!inputs.roomType || !inputs.pricePerNight || !Object.values(images).some(image => image) ){
         toast.error("please fill in all the details")
         return;
     }
@@ -92,12 +93,16 @@ return (
             <div className='flex-1 max-w-48'>
                 <p className='text-gray-800 mt-4'>Room Type</p>
                 <select value={inputs.roomType} onChange={e=> setInputs({...inputs, roomType:e.target.value})} 
-                className='border opacity-70 border-gray-300 mt-l rounded p-2 w-full'>
-                    <option value="">Select Room Type</option>
+                className='border opacity-70 border-gray-300 mt-1 rounded p-2 w-full'>
+                    {/* <option value="">Select Room Type</option>
                     <option value="">Single bed</option>
                     <option value="">Double bed</option>
                     <option value="">Luxury Room</option>
-                    <option value="">Family suite</option>
+                    <option value="">Family suite</option> */}
+                    <option value="Single bed">Single bed</option>
+                    <option value="Double bed">Double bed</option>
+                    <option value="Luxury Room">Luxury Room</option>
+                    <option value="Family suite">Family suite</option>
                 </select>
             </div>
             <div>

@@ -7,10 +7,14 @@ const HotelReg = () => {
 
   const{setShowHotelReg, axios, getToken, setIsOwner}= useAppContext()
 
-  const {name, setName} = useState("")
-  const {address, setAddress} = useState("")
-  const {contact, setContact} = useState("")
-  const {city, setCity} = useState("")
+  // const {name, setName} = useState("")
+  // const {address, setAddress} = useState("")
+  // const {contact, setContact} = useState("")
+  // const {city, setCity} = useState("")
+  const [name, setName] = useState("")
+  const [address, setAddress] = useState("")
+  const [contact, setContact] = useState("")
+  const [city, setCity] = useState("")
 
   const {onSubmitHandler}= async (event)=>{
     try {
