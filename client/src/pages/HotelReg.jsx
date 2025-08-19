@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 
 const HotelReg = () => {
 
-  const{setShowHotelReg, axios, getToken, setIsOwner}= useAppContext()
+  const{setShowHotelReg, axios, getToken, setIsowner, fetchUser}= useAppContext()
 
   // const {name, setName} = useState("")
   // const {address, setAddress} = useState("")
@@ -21,10 +21,21 @@ const HotelReg = () => {
       event.preventDefault();
       const {data} = await axios.post(`/api/hotels/`, {name, contact ,address, city}, {headers : {Authorization: `Bearer ${await getToken()}`}})
 
+      // if(data.success){
+      //   toast.success(data.message)
+      //   setIsowner (true)
+      //   setShowHotelReg(false)
+      // }
+      
       if(data.success){
         toast.success(data.message)
-        setIsOwner (true)
+        // Immediately update the UI state
+        setIsowner(true)
         setShowHotelReg(false)
+        // Refresh user data from server to ensure consistency
+        setTimeout(() => {
+          fetchUser();
+        }, 500);
       }
       else{
         toast.error(data.message)
