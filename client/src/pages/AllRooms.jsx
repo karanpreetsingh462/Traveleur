@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { assets, facilityIcons, roomsDummyData } from '../assets/assets'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import StarRating from '../components/StarRating';
@@ -171,14 +171,15 @@ const AllRooms = () => {
                         <span onClick={()=> setOpenFilters(!openFilters)} 
                         className='lg:hidden'>
                         {openFilters ? 'HIDE':'SHOW'}</span>
-                        <span className='hidden lg:block'>CLEAR</span>
+                        {/* <span className='hidden lg:block'>CLEAR</span> */}
+                        <span className='hidden lg:block' onClick={clearFilters}>CLEAR</span>
                     </div>
                 </div>
                 <div className={`${openFilters ?'h:auto':"h-0 lg:h-auto"} overflow-hidden transition-all duration-700`}>
                     <div className='px-5 pt-5'>
                         <p className='font-medium text-gray-800 pb-2'>Popular Filters</p>
                         {roomTypes.map((room,index)=>(
-                            <CheckBox key={index} label={room} selected={selectedFilters.roomtype.includes(room)} onChange={(checked)=>handleFilterChange(checked, room, 'roomType')}/>
+                            <CheckBox key={index} label={room} selected={selectedFilters.roomtype.includes(room)} onChange={(checked)=>handleFilterChange(checked, room, 'roomtype')}/>
                         ))}
                     </div>
                     <div className='px-5 pt-5'>
