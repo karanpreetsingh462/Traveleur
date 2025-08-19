@@ -6,7 +6,7 @@ export const getUserData = async (req, res)=>{
         const recentSearchedCities=req.user.recentSearchedCities;
         res.json({success: true, role, recentSearchedCities})
     } catch (error) {
-        res.json({success: true, message: error.message})
+        res.json({success: false, message: error.message})
     }
 }
 
@@ -15,7 +15,8 @@ export const getUserData = async (req, res)=>{
 export const storeRecentSearchedCities = async(req, res)=>{
     try {
         const {recentSearchedCities} = req.body;
-        const user = await req.user;
+        // const user = await req.user;
+        const user = req.user;
 
         if(user.recentSearchedCities.length < 3){
             user.recentSearchedCities.push(recentSearchedCities)

@@ -5,7 +5,7 @@ const clerkWebhooks= async(req, res)=>{
 
     // Create a svix instance with clerk secret
     try {
-        const whook= Webhook(process.env.CLERK_WEBHOOK_SECRET)
+        const whook= new Webhook(process.env.CLERK_WEBHOOK_SECRET)
 
         //getting headers
         const headers={ 
@@ -23,14 +23,35 @@ const clerkWebhooks= async(req, res)=>{
         //switch case for different events
         switch (type) {
             case "user.created":{
-            const userData={
-            _id: data.id,
-            email: data.email_addresses[0].email_address,
-            username: data.first_name + " " + data.last_name,
-            image: data.image_url,
-            }
-            await User.create(userData);
-            break;
+            // const userData={
+            // _id: data.id,
+            // email: data.email_addresses[0].email_address,
+            // username: data.first_name + " " + data.last_name,
+            // image: data.image_url,
+            // }
+            // await User.create(userData);
+            // break;
+            try {
+                    const userData={
+                        _id: data.id,
+                        email: data.email_addresses[0].email_address,
+                        username: data.first_name + " " + data.last_name,
+                        image: data.image_url,
+                    }
+                    
+                    // Check if user already exists to prevent duplicates
+                    const existingUser = await User.findById(data.id);
+                    if (existingUser) {
+                        console.log('User already exists:', data.id);
+                        break;
+                    }
+                    await User.create(userData);
+                    console.log(' User created successfully:', data.id);
+                } catch (userError) {
+                    console.error('Failed to create user:', userError.message);
+                    // Don't throw error - let the webhook continue
+                }
+                break;
             }
 
             case "user.updated":{
