@@ -38,7 +38,8 @@ import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
 import hostLogo from './hostLogo.png'
-
+import heroImageAbout from './aboutImage.png'
+import founderImage from './founder.png'
 
 export const assets = {
     logo,
@@ -73,6 +74,8 @@ export const assets = {
     uploadArea,
     totalBookingIcon,
     totalRevenueIcon,
+    heroImageAbout,
+    founderImage
 }
 
 export const cities = [
