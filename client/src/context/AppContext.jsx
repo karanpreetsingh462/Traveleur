@@ -94,6 +94,7 @@ export const AppProvider = ({children})=>{
     const [showHotelReg, setShowHotelReg]= useState(false)
     const [searchedCities, setSearchedCities] = useState([])
     const [rooms, setRooms] = useState([])
+    const [cart, setCart] = useState([])
 
     const fetchRooms = async()=>{
         try {
@@ -138,18 +139,68 @@ export const AppProvider = ({children})=>{
         }
     }
 
-    useEffect(()=>{
-        if(user){
-            fetchUser();
+    // Cart functions
+    const addToCart = (experience) => {
+        if (!user) {
+            toast.error('Please login to add to cart');
+            return false;
         }
-    }, [user])
+        
+        // Check if item already exists in cart
+        const existingItem = cart.find(item => item.id === experience.id);
+        if (existingItem) {
+            toast.error('This experience is already in your cart!');
+            return false;
+        }
+        
+        const cartItem = {
+            id: experience.id,
+            title: experience.title,
+            description: experience.description,
+            category: experience.category,
+            duration: experience.duration,
+            price: experience.price,
+            location: experience.location,
+            rating: experience.rating,
+            image: experience.image,
+            addedAt: new Date().toISOString()
+        };
+        
+        setCart(prev => [...prev, cartItem]);
+        toast.success(`${experience.title} added to cart!`, {
+            icon: '🛒'
+        });
+        console.log('🛒 Added to cart:', cartItem);
+        return true;
+    };
+
+    const removeFromCart = (experienceId) => {
+        setCart(prev => prev.filter(item => item.id !== experienceId));
+        toast.success('Item removed from cart', {
+            icon: '🗑️'
+        });
+        console.log('🗑️ Removed from cart:', experienceId);
+    };
+
+    const clearCart = () => {
+        setCart([]);
+        console.log('🗑️ Cart cleared');
+    };
 
     useEffect(()=>{
         fetchRooms();
     }, [])
 
+    useEffect(()=> {
+        if(!user) {
+            // Clear cart when user logs out
+            setCart([]);
+        }
+    }, [user])
+
     const value={   
-        currency, navigate, user, getToken, isOwner, setIsowner, axios, showHotelReg, setShowHotelReg, searchedCities, setSearchedCities, rooms, setRooms, fetchUser
+        currency, navigate, user, getToken, isOwner, setIsowner, axios, showHotelReg, setShowHotelReg, searchedCities, setSearchedCities, rooms, setRooms, fetchUser,
+        cart, addToCart, removeFromCart, clearCart
     }
     return(
         <AppContext.Provider value={value}>
@@ -158,3 +209,24 @@ export const AppProvider = ({children})=>{
     )
 }
 export const useAppContext = () => useContext(AppContext);
+
+//     useEffect(()=>{
+//         if(user){
+//             fetchUser();
+//         }
+//     }, [user])
+
+//     useEffect(()=>{
+//         fetchRooms();
+//     }, [])
+
+//     const value={   
+//         currency, navigate, user, getToken, isOwner, setIsowner, axios, showHotelReg, setShowHotelReg, searchedCities, setSearchedCities, rooms, setRooms, fetchUser
+//     }
+//     return(
+//         <AppContext.Provider value={value}>
+//             {children}
+//         </AppContext.Provider>
+//     )
+// }
+// export const useAppContext = () => useContext(AppContext);

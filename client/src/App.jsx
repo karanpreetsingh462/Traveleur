@@ -8,6 +8,8 @@ import RoomDetails from './pages/RoomDetails'
 import MyBookings from './pages/MyBookings'
 import HotelReg from './pages/HotelReg'
 import About from './pages/About'
+import Experience from './pages/Experience'
+import FloatingCart from './components/FloatingCart'
 import Layout from './pages/hotelOwner/Layout'
 import Dashboard from './pages/hotelOwner/Dashboard'
 import AddRoom from './pages/hotelOwner/AddRoom'
@@ -32,6 +34,7 @@ const App = () => {
         <Route path='/rooms' element={<AllRooms/>}/>
         <Route path='/rooms/:id' element={<RoomDetails/>}/>
         <Route path='/about' element={<About/>}/>
+        <Route path='/experience' element={<Experience/>}/>
         <Route path='/my-bookings' element={<MyBookings/>}/>
         <Route path='/owner' element={<Layout/>}>
           <Route index element={<Dashboard/>}/>
@@ -40,6 +43,7 @@ const App = () => {
         </Route>
       </Routes>
     </div>
+    {!isOwnerPath && <FloatingCart/>}
     <Footer/>
     </div>
   )
